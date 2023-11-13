@@ -2,35 +2,34 @@ const express = require('express');
 const app = express();
 const port = process.env.APP_PORT;
 
-function fibonacci(n) {
-    if (n <= 0) {
-        return [];
-    } else if (n === 1) {
-        return [0];
-    } else if (n === 2) {
-        return [0, 1];
+function calculator(operator, ...numbers) {
+    if (operator === 'add') {
+        return numbers.reduce((acc, num) => acc + num, 0);
+    } else if (operator === 'subtract') {
+        return numbers.reduce((acc, num) => acc - num);
     } else {
-        const fibArray = [0, 1];
-        for (let i = 2; i < n; i++) {
-            fibArray.push(fibArray[i - 1] + fibArray[i - 2]);
-        }
-        return fibArray;
+        return 'Unsupported operator';
     }
 }
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.send('Go to calculator by clicking <a href="/calculator?operator=add&numbers=1,12,123">here</a>.');
 });
 
-app.get('/fibonacci', (req, res) => {
-    const result = fibonacci(req.query.n);
-    res.send(result);
+app.get('/calculator', (req, res) => {
+    const operator = req.query.operator;
+    const numbers = req.query.numbers.split(',').map(Number);
 
-    // http://localhost:3000/fibonacci?n=10
+    if (operator && numbers && numbers.length > 0) {
+        const result = calculator(operator, ...numbers);
+        res.send(result.toString()); // Convert the result to a string before sending
+    } else {
+        res.status(400).send('Invalid input');
+    }
+
+    // http://localhost:3000/calculator?operator=subtract&numbers=3,4,123
 });
 
 app.listen(port, () => {
-    console.log(`First exercise app listening on port ${port}`)
+    console.log(`First exercise app listening on port ${port}`);
 });
-
-module.exports = app;
