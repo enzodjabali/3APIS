@@ -1,36 +1,29 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const itemRoutes = require('./routes/itemRoutes');
+const PORT = 3000;
 const app = express();
-const port = process.env.APP_PORT;
 
-function fibonacci(n) {
-    if (n <= 0) {
-        return [];
-    } else if (n === 1) {
-        return [0];
-    } else if (n === 2) {
-        return [0, 1];
-    } else {
-        const fibArray = [0, 1];
-        for (let i = 2; i < n; i++) {
-            fibArray.push(fibArray[i - 1] + fibArray[i - 2]);
-        }
-        return fibArray;
-    }
-}
+app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-});
+//const dbURI = process.env.dbURI;
+const dbURI = "mongodb://root:example@mongo/?retryWrites=true&w=majority";
 
-app.get('/fibonacci', (req, res) => {
-    const result = fibonacci(req.query.n);
-    res.send(result);
+mongoose.connect(dbURI)
+    .then((result)=>console.log('connected to the db'))
+    .catch((err)=> console.log(err))
 
-    // http://localhost:3000/fibonacci?n=10
-});
+app.listen(PORT,'localHost', ()=>{
+    console.log('LISTENING FOR LOCAL HOST');
+})
 
-app.listen(port, () => {
-    console.log(`First exercise app listening on port ${port}`)
-});
+app.use('/items', itemRoutes);
 
-module.exports = app;
+
+
+
+
