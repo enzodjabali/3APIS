@@ -1,5 +1,5 @@
 ARG IMAGE_VERSION_BUILD=latest
-ARG IMAGE_VERSION=18.14.2-bullseye-slim
+ARG IMAGE_VERSION=21
 ARG NODE_ENV=development
 
 FROM node:${IMAGE_VERSION_BUILD} AS build
@@ -11,5 +11,8 @@ COPY --from=build /usr/bin/dumb-init /usr/bin/dumb-init
 RUN mkdir /usr/src/app
 RUN chown node:node /usr/src/app
 WORKDIR /usr/src/app
-USER node
+#USER node
+
+EXPOSE 3000
+
 CMD ["dumb-init", "npm", "run", "start"]

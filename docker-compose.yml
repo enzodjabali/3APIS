@@ -3,13 +3,13 @@ version: "3.9"
 services:
   web:
     build: .
-    user: "node:node"
+    #user: "node:node"
     #environment:
     #  - APP_PORT=${APP_PORT:-3000}
-    volumes:
-      - "./app:/usr/src/app"
     ports:
       - "3000:3000"
+    volumes:
+      - "./app:/usr/src/app"
 
   mongo:
     image: mongo:5.0.22-focal

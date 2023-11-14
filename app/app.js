@@ -17,9 +17,9 @@ mongoose.connect(dbURI)
     .then((result)=>console.log('connected to the db'))
     .catch((err)=> console.log(err))
 
-app.listen(PORT,'localHost', ()=>{
-    console.log('LISTENING FOR LOCAL HOST');
-})
+app.listen(PORT, () => {
+    console.log(`First exercise app listening on port ${PORT}`);
+});
 
 app.use('/items', itemRoutes);
 
