@@ -9,7 +9,7 @@
       "email": "rajputankit22@gmail.com"
     }
   },
-  "host": "localhost:3000",
+  "host": "127.0.0.1:3000",
   "basePath": "/",
   "tags": [
     {

@@ -1,4 +1,4 @@
-const Item = require ('../models/items')
+const Item = require ('../models/items');
 
 const createPostItems = (req, res)=>{
     const item = new Item({

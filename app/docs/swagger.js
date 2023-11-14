@@ -22,7 +22,7 @@ const doc = {
             'email': 'rajputankit22@gmail.com'
         },
     },
-    host: 'localhost:3000',      // by default: 'localhost:3000'
+    host: '127.0.0.1:3000',      // by default: 'localhost:3000'
     basePath: '/',  // by default: '/'
     schemes: ['http'],   // by default: ['http']
     consumes: ['application/json'],  // by default: ['application/json']
@@ -42,8 +42,8 @@ const doc = {
         healthResponse: {
             //code: msg.response.CAG001.code,
             //message: msg.response.CAG001.message,
-            code: 200,
-            message: "Succeed",
+            //code: 200,
+            //message: "Succeed",
         },
         'errorResponse.400': {
             //code: msg.response.CAGE002.code,

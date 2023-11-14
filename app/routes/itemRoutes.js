@@ -8,4 +8,4 @@ router.get('/:id',getSingleItem)
 router.put('/:id',updateItems)
 router.delete('/:id', deleteItem)
 
-module.exports= router
+module.exports = router
