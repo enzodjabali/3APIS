@@ -23,9 +23,9 @@ Mongo Express is accessible on ``127.0.0.1:8081``
 
 Mongo Express creditentials:
 <br>
-User: ``admin``
+User: ``root``
 <br>
-Password: ``pass``
+Password: ``example``
 
 Authentify to the api:
 
