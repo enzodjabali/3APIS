@@ -3,28 +3,25 @@ version: "3.9"
 services:
   web:
     build: .
-    #user: "node:node"
-    #environment:
-    #  - APP_PORT=${APP_PORT:-3000}
     ports:
-      - "3000:3000"
+      - "${APP_PORT}:3000"
     volumes:
       - "./app:/usr/src/app"
 
   mongo:
-    image: mongo:5.0.22-focal
+    image: mongo:${MONGO_VERSION}
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
 
   mongo-express:
-    image: mongo-express:1.0.0-20-alpine3.18
+    image: mongo-express:${MONGO_EXPRESS_VERSION}
     ports:
-      - "8081:8081"
+      - "${MONGO_EXPRESS_PORT}:8081"
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_EXPRESS_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_EXPRESS_PASSWORD}
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo:27017/
 
 volumes:
   db:
