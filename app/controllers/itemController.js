@@ -1,6 +1,4 @@
 const Item = require ('../models/Item');
-const jwt = require('jsonwebtoken');
-
 
 const createPostItems = (req, res)=>{
     const item = new Item({
@@ -69,4 +67,4 @@ const deleteItem = (req, res)=>{
     })
 }
 
-module.exports = { createPostItems , getAllItems, getSingleItem ,updateItems, deleteItem }
+module.exports = { createPostItems , getAllItems, getSingleItem ,updateItems, deleteItem };
