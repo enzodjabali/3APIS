@@ -5,9 +5,11 @@ services:
     image: node:${NODE_VERSION}
     ports:
       - '${APP_PORT}:3000'
+    command: 'npm start --prefix /app'
     volumes:
-      - './app:/usr/src/app'
-    command: 'npm start --prefix /usr/src/app'
+      - './app:/app'
+    depends_on:
+      - mongo
 
   mongo:
     image: mongo:${MONGO_VERSION}
@@ -23,3 +25,5 @@ services:
       ME_CONFIG_BASICAUTH_USERNAME: ${MONGO_EXPRESS_USERNAME}
       ME_CONFIG_BASICAUTH_PASSWORD: ${MONGO_EXPRESS_PASSWORD}
       ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo:${MONGO_PORT}/
+    depends_on:
+      - mongo

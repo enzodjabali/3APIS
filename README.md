@@ -1,31 +1,34 @@
 # 3APIS
 
-Build:
-``docker compose build``
-
 Install npm packages: 
-``docker compose run web npm install``
+``docker compose run web npm --prefix /app install``
 
 Start: 
 ``docker compose up``
 
-Run tests: 
-``docker compose run web npm test``
+That's it. Your API is now available on ``127.0.0.1:3000`` 🎉
 
-Regenerate api-docs:
-``docker compose run web node ./docs/swagger.js``
-
-App is accessible on ``127.0.0.1:3000``
+<hr>
 
 Swagger is accessible on ``127.0.0.1:3000/api-docs``
 
+<hr>
+
 Mongo Express is accessible on ``127.0.0.1:8081``
+
 
 Mongo Express creditentials:
 <br>
 User: ``root``
 <br>
 Password: ``example``
+
+<hr>
+
+Regenerate api-docs:
+``docker compose run web node ./docs/swagger.js``
+
+<hr>
 
 Authentify to the api:
 
