@@ -1,10 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
+
+const itemRoutes = require('./routes/itemRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 
-const itemRoutes = require('./routes/itemRoutes');
 const PORT = 3000;
 const app = express();
 
@@ -14,14 +17,15 @@ app.use(express.json());
 const dbURI = "mongodb://root:example@mongo/?retryWrites=true&w=majority";
 
 mongoose.connect(dbURI)
-    .then((result)=>console.log('connected to the db'))
+    .then((result)=>console.log('Successfully connected to the database!'))
     .catch((err)=> console.log(err))
 
 app.listen(PORT, () => {
-    console.log(`First exercise app listening on port ${PORT}`);
+    console.log(`App listening on port ${PORT}`);
 });
 
 app.use('/items', itemRoutes);
+app.use('/users', userRoutes);
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./docs/swagger.json');
