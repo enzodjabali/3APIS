@@ -1,5 +1,5 @@
 const express = require('express');
-const {createPostItems, getAllItems, getSingleItem, updateItems, deleteItem} = require ('../controllers/itemController');
+const { createPostItems, getAllItems, getSingleItem, updateItems, deleteItem} = require ('../controllers/itemController');
 const router = express.Router();
 
 const { verifyToken } = require('../security/verifyToken');

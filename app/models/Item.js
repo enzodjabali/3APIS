@@ -14,7 +14,7 @@ const itemSchema= new Schema({
         type: Number,
         required: true
     }
-},{timestamps: true})
+}, { timestamps: true });
 
 const Item= mongoose.model('Item', itemSchema);
 

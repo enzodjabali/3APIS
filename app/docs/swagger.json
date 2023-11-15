@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "2.0.0",
-    "title": "CloudAgent Apis",
-    "description": "API for Managing queue calls",
+    "version": "1.0.0",
+    "title": "3APIS",
+    "description": "API for 3APIS",
     "contact": {
       "name": "API Support",
-      "email": "rajputankit22@gmail.com"
+      "email": "enzo.djabali@supinfo.com"
     }
   },
   "host": "127.0.0.1:3000",
@@ -37,6 +37,11 @@
         "description": "",
         "parameters": [
           {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "schema": {
@@ -59,6 +64,9 @@
           "201": {
             "description": "Created"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -66,9 +74,19 @@
       },
       "get": {
         "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error"
@@ -85,11 +103,19 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Not Found"
@@ -104,11 +130,19 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "404": {
             "description": "Not Found"
@@ -126,45 +160,85 @@
             "in": "path",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
           }
         }
       }
-    }
-  },
-  "definitions": {
-    "helathResponse": {
-      "type": "object",
-      "properties": {}
     },
-    "errorResponse.400": {
-      "type": "object",
-      "properties": {}
-    },
-    "errorResponse.403": {
-      "type": "object",
-      "properties": {}
-    },
-    "errorResponse.404": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "string",
-          "example": "404"
-        },
-        "message": {
-          "type": "string",
-          "example": "Not found"
+    "/users/register": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
         }
       }
     },
-    "errorResponse.500": {
-      "type": "object",
-      "properties": {}
+    "/users/login": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   }
 }
