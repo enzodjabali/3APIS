@@ -1,6 +1,6 @@
 const Item = require ('../models/Item');
 
-const createPostItems = (req, res)=> {
+const createPostItems = (req, res) => {
     const item = new Item({
         name: req.body.name,
         description: req.body.description,
@@ -30,7 +30,7 @@ const getAllItems = (req, res)=> {
         });
 };
 
-const getSingleItem = (req, res)=> {
+const getSingleItem = (req, res) => {
     const id = req.params.id;
 
     Item.findById(id)
@@ -44,7 +44,7 @@ const getSingleItem = (req, res)=> {
         });
 };
 
-const updateItems = (req, res)=> {
+const updateItems = (req, res) => {
     const id = req.params.id;
 
     Item.findByIdAndUpdate(id , req.body)
@@ -61,7 +61,7 @@ const updateItems = (req, res)=> {
         });
 };
 
-const deleteItem = (req, res)=> {
+const deleteItem = (req, res) => {
     const id = req.params.id;
 
     Item.findByIdAndDelete(id)
