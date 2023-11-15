@@ -4,26 +4,28 @@ const createPostItems = (req, res)=> {
     const item = new Item({
         name: req.body.name,
         description: req.body.description,
-        price: req.body.price
+        price: req.body.price,
+        createdBy: req.userId
     });
 
     item.save()
-        .then(result =>{
-         res.status(201).json(result)
+        .then(result => {
+         res.status(201).json(result);
        })
         .catch (err =>{
-            console.log(err)
+            console.log(err);
             res.status(500).json({ error: 'Internal Server Error' });
        });
 };
 
 const getAllItems = (req, res)=> {
     Item.find()
+        .populate('createdBy')
         .then(result =>{
-            res.status(200).json(result)
+            res.status(200).json(result);
         })
-        .catch(err =>{
-            console.log(err)
+        .catch(err => {
+            console.log(err);
             res.status(500).json({ error: 'Internal Server Error' })
         });
 };
@@ -32,11 +34,12 @@ const getSingleItem = (req, res)=> {
     const id = req.params.id;
 
     Item.findById(id)
+        .populate('createdBy')
         .then(result => {
-            res.status(200).json(result)
+            res.status(200).json(result);
         })
         .catch(err =>{
-            console.log(err)
+            console.log(err);
             res.status(404).json({ error: 'Item not found' });
         });
 };
@@ -63,10 +66,10 @@ const deleteItem = (req, res)=> {
 
     Item.findByIdAndDelete(id)
         .then(result => {
-            res.send('Item deleted successful')
+            res.send('Item deleted successful');
         })
         .catch(err =>{
-            console.log(err)
+            console.log(err);
         });
 };
 

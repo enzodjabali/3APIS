@@ -13,6 +13,11 @@ const itemSchema= new Schema({
     price: {
         type: Number,
         required: true
+    },
+    createdBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 }, { timestamps: true });
 
