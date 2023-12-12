@@ -4,11 +4,15 @@ const bcrypt = require('bcrypt');
 
 const registerUser = async (req, res) => {
     let username = req.body.username;
+    let email = req.body.email;
     let password = await bcrypt.hash(req.body.password, 10);
+    let role = "USER";
 
     const user = new User({
         username: username,
+        email: email,
         password: password,
+        role: role,
     });
 
     user.save()
