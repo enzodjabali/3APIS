@@ -6,7 +6,7 @@ const registerUser = async (req, res) => {
     let username = req.body.username;
     let email = req.body.email;
     let password = await bcrypt.hash(req.body.password, 10);
-    let role = "EMPLOYEE";
+    let role = "USER";
 
     const user = new User({
         username: username,
@@ -53,11 +53,7 @@ const loginUser = async (req, res) => {
 };
 
 const getAllUsers = async (req, res) => {
-    let currentUserId = req.userId;
     const currentUser = await User.findOne({_id: req.userId});
-    // let currentUserRole = currentUser.role;
-    
-    // res.status(200).json({ currentUserRole });
 
     if (currentUser.role == "EMPLOYEE" || currentUser.role == "ADMIN") {
         User.find()
@@ -83,4 +79,14 @@ const whoami = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser, getAllUsers, whoami };
+const deleteUser = (req, res) => {
+    User.findByIdAndDelete({_id: req.userId})
+        .then(result => {
+            res.send('Your account has been successfully deleted');
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
+
+module.exports = { registerUser, loginUser, getAllUsers, whoami, deleteUser };
