@@ -21,7 +21,7 @@ const createPostItems = (req, res) => {
 const getAllItems = (req, res)=> {
     Item.find()
         .populate('createdBy')
-        .then(result =>{
+        .then(result => {
             res.status(200).json(result);
         })
         .catch(err => {

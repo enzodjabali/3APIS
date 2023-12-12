@@ -52,4 +52,25 @@ const loginUser = async (req, res) => {
     }
 };
 
-module.exports = { registerUser, loginUser };
+const getAllUsers = (req, res) => {
+    User.find()
+        .then(result => {
+            res.status(200).json(result);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({ error: 'Internal Server Error' })
+        });
+};
+
+const whoami = async (req, res) => {
+    try {
+        User.findOne({_id: req.userId}).then(function(user) {
+            res.status(200).json({ user });
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+module.exports = { registerUser, loginUser, getAllUsers, whoami };
