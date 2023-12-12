@@ -6,7 +6,7 @@ const registerUser = async (req, res) => {
     let username = req.body.username;
     let email = req.body.email;
     let password = await bcrypt.hash(req.body.password, 10);
-    let role = "USER";
+    let role = "EMPLOYEE";
 
     const user = new User({
         username: username,
@@ -52,8 +52,15 @@ const loginUser = async (req, res) => {
     }
 };
 
-const getAllUsers = (req, res) => {
-    User.find()
+const getAllUsers = async (req, res) => {
+    let currentUserId = req.userId;
+    const currentUser = await User.findOne({_id: req.userId});
+    // let currentUserRole = currentUser.role;
+    
+    // res.status(200).json({ currentUserRole });
+
+    if (currentUser.role == "EMPLOYEE" || currentUser.role == "ADMIN") {
+        User.find()
         .then(result => {
             res.status(200).json(result);
         })
@@ -61,12 +68,15 @@ const getAllUsers = (req, res) => {
             console.log(err);
             res.status(500).json({ error: 'Internal Server Error' })
         });
+    } else {
+        res.status(403).json({ error: 'You do not have the suffisant privilieges to perform this action'})
+    }
 };
 
 const whoami = async (req, res) => {
     try {
-        User.findOne({_id: req.userId}).then(function(user) {
-            res.status(200).json({ user });
+        User.findOne({_id: req.userId}).then(function(currentUser) {
+            res.status(200).json({ currentUser });
         });
     } catch (error) {
         res.status(500).json({ error: error.message });
