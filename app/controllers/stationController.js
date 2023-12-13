@@ -17,8 +17,10 @@ const createStation = (req, res) => {
        });
 };
 
-const getAllStations = (req, res)=> {
-    Station.find()
+const getAllStations = (req, res) => {
+    const sortByName = req.params.sortByName == 'true' ? 1 : -1;
+
+    Station.find().sort({ name: sortByName })
         .then(result => {
             res.status(200).json(result);
         })
