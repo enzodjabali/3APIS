@@ -1,26 +1,27 @@
-const Item = require ('../models/Item');
+const Train = require('../models/Train');
 
-const createPostItems = (req, res) => {
-    const item = new Item({
+const createTrain = (req, res) => {
+    const train = new Train({
         name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        createdBy: req.userId
+        departureTime: req.body.departureTime,
+        startStation: req.body.startStation,
+        endStation: req.body.endStation
     });
 
-    item.save()
+    train.save()
         .then(result => {
          res.status(201).json(result);
        })
-        .catch (err =>{
+        .catch (err => {
             console.log(err);
             res.status(500).json({ error: 'Internal Server Error' });
        });
 };
 
-const getAllItems = (req, res)=> {
-    Item.find()
-        .populate('createdBy')
+const getAllTrains = (req, res)=> {
+    Train.find()
+        .populate('startStation')
+        .populate('endStation')
         .then(result => {
             res.status(200).json(result);
         })
@@ -30,29 +31,30 @@ const getAllItems = (req, res)=> {
         });
 };
 
-const getSingleItem = (req, res) => {
+const getSingleTrain = (req, res) => {
     const id = req.params.id;
 
-    Item.findById(id)
-        .populate('createdBy')
+    Train.findById(id)
+        .populate('startStation')
+        .populate('endStation')
         .then(result => {
             res.status(200).json(result);
         })
         .catch(err =>{
             console.log(err);
-            res.status(404).json({ error: 'Item not found' });
+            res.status(404).json({ error: 'Train not found' });
         });
 };
 
-const updateItems = (req, res) => {
+const updateTrain = (req, res) => {
     const id = req.params.id;
 
-    Item.findByIdAndUpdate(id , req.body)
+    Train.findByIdAndUpdate(id , req.body)
         .then(result => {
             if (result) {
-                res.status(200).send('Updated item successfully'); // 200 OK
+                res.status(200).send('Updated train successfully'); // 200 OK
             } else {
-                res.status(404).json({ error: 'Item not found' }); // 404 Not Found
+                res.status(404).json({ error: 'Train not found' }); // 404 Not Found
             }
         })
         .catch(err => {
@@ -61,16 +63,16 @@ const updateItems = (req, res) => {
         });
 };
 
-const deleteItem = (req, res) => {
+const deleteTrain = (req, res) => {
     const id = req.params.id;
 
-    Item.findByIdAndDelete(id)
+    Train.findByIdAndDelete(id)
         .then(result => {
-            res.send('Item deleted successful');
+            res.send('Train deleted successful');
         })
         .catch(err => {
             console.log(err);
         });
 };
 
-module.exports = { createPostItems , getAllItems, getSingleItem ,updateItems, deleteItem };
+module.exports = { createTrain , getAllTrains, getSingleTrain, updateTrain, deleteTrain };

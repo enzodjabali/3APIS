@@ -1,5 +1,5 @@
-const Station = require ('../models/Station');
-const User = require ('../models/User');
+const Station = require('../models/Station');
+const User = require('../models/User');
 
 const createStation = async (req, res) => {
     const currentUser = await User.findOne({_id: req.userId});

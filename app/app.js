@@ -8,7 +8,7 @@ const APP = express();
 const PORT = 3000;
 const DB_URI = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@mongo/?retryWrites=true&w=majority`;
 
-const itemRoutes = require('./routes/itemRoutes');
+const trainRoutes = require('./routes/trainRoutes');
 const stationRoutes = require('./routes/stationRoutes');
 const userRoutes = require('./routes/userRoutes');
 
@@ -22,7 +22,7 @@ APP.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
 });
 
-APP.use('/items', itemRoutes);
+APP.use('/trains', trainRoutes);
 APP.use('/stations', stationRoutes);
 APP.use('/users', userRoutes);
 
