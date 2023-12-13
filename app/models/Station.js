@@ -10,13 +10,8 @@ const stationSchema = new Schema({
         type: String,
         required: true
     },
-    price: {
-        type: Number,
-        required: true
-    },
-    createdBy: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
+    closeHour: {
+        type: String,
         required: true
     }
 }, { timestamps: true });

@@ -3,16 +3,15 @@ const Station = require ('../models/Station');
 const createStation = (req, res) => {
     const station = new Station({
         name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        createdBy: req.userId
+        openHour: req.body.openHour,
+        closeHour: req.body.closeHour
     });
 
     station.save()
         .then(result => {
          res.status(201).json(result);
        })
-        .catch (err =>{
+        .catch (err => {
             console.log(err);
             res.status(500).json({ error: 'Internal Server Error' });
        });
@@ -20,7 +19,6 @@ const createStation = (req, res) => {
 
 const getAllStations = (req, res)=> {
     Station.find()
-        .populate('createdBy')
         .then(result => {
             res.status(200).json(result);
         })
@@ -34,7 +32,6 @@ const getSingleStation = (req, res) => {
     const id = req.params.id;
 
     Station.findById(id)
-        .populate('createdBy')
         .then(result => {
             res.status(200).json(result);
         })

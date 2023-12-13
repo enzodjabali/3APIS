@@ -9,6 +9,7 @@ const PORT = 3000;
 const DB_URI = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@mongo/?retryWrites=true&w=majority`;
 
 const itemRoutes = require('./routes/itemRoutes');
+const stationRoutes = require('./routes/stationRoutes');
 const userRoutes = require('./routes/userRoutes');
 
 APP.use(express.json());
@@ -22,6 +23,7 @@ APP.listen(PORT, () => {
 });
 
 APP.use('/items', itemRoutes);
+APP.use('/stations', stationRoutes);
 APP.use('/users', userRoutes);
 
 const swaggerUi = require('swagger-ui-express');
