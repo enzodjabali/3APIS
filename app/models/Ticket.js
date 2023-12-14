@@ -11,6 +11,10 @@ const ticketSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Train',
         required: true
+    },
+    isValid: {
+        type: Boolean,
+        required: true
     }
 }, { timestamps: true });
 
