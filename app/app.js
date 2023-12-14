@@ -11,6 +11,7 @@ const DB_URI = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASS
 const trainRoutes = require('./routes/trainRoutes');
 const stationRoutes = require('./routes/stationRoutes');
 const userRoutes = require('./routes/userRoutes');
+const ticketRoutes = require('./routes/ticketRoutes');
 
 APP.use(express.json());
 
@@ -25,6 +26,7 @@ APP.listen(PORT, () => {
 APP.use('/trains', trainRoutes);
 APP.use('/stations', stationRoutes);
 APP.use('/users', userRoutes);
+APP.use('/tickets', ticketRoutes);
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./docs/swagger.json');
