@@ -26,7 +26,9 @@ const createTrain = async (req, res) => {
 };
 
 const getAllTrains = (req, res) => {
-    Train.find()
+    const limit = req.params.limit ? parseInt(req.params.limit) : 10;
+
+    Train.find().limit(limit)
         .populate('startStation')
         .populate('endStation')
         .then(result => {
