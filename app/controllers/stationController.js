@@ -1,10 +1,10 @@
 const Station = require('../models/Station');
 const User = require('../models/User');
-const { stationSchema } = require('../middlewares/validationSchema');
+const { createStationSchema, updateStationSchema } = require('../middlewares/validationSchema');
 
 const createStation = async (req, res) => {
     try {
-        await stationSchema.validateAsync(req.body);
+        await createStationSchema.validateAsync(req.body);
 
         const currentUser = await User.findOne({_id: req.userId});
 
@@ -58,25 +58,31 @@ const getSingleStation = (req, res) => {
 };
 
 const updateStation = async (req, res) => {
-    const currentUser = await User.findOne({_id: req.userId});
+    try {
+        await updateStationSchema.validateAsync(req.body);
+    
+        const currentUser = await User.findOne({_id: req.userId});
 
-    if (currentUser.role == "ADMIN") {
-        const id = req.params.id;
+        if (currentUser.role == "ADMIN") {
+            const id = req.params.id;
 
-        Station.findByIdAndUpdate(id , req.body)
-            .then(result => {
-                if (result) {
-                    res.status(200).send('Updated station successfully'); // 200 OK
-                } else {
-                    res.status(404).json({ error: 'Station not found' }); // 404 Not Found
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                res.status(500).json({ error: 'Internal Server Error' }); // 500 Internal Server Error
-            });
-    } else {
-        res.status(403).json({ error: 'You do not have the suffisant privilieges to perform this action'})
+            Station.findByIdAndUpdate(id , req.body)
+                .then(result => {
+                    if (result) {
+                        res.status(200).send('Updated station successfully'); // 200 OK
+                    } else {
+                        res.status(404).json({ error: 'Station not found' }); // 404 Not Found
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    res.status(500).json({ error: 'Internal Server Error' }); // 500 Internal Server Error
+                });
+        } else {
+            res.status(403).json({ error: 'You do not have the suffisant privilieges to perform this action'})
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 };
 

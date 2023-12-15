@@ -1,11 +1,10 @@
 const Ticket = require('../models/Ticket');
 const User = require('../models/User');
-const Train = require('../models/Train');
-const { ticketSchema } = require('../middlewares/validationSchema');
+const { createTicketSchema, updateTicketSchema } = require('../middlewares/validationSchema');
 
 const bookTicket = async (req, res) => {
     try {
-        await ticketSchema.validateAsync(req.body);
+        await createTicketSchema.validateAsync(req.body);
 
         const currentUser = await User.findOne({_id: req.userId});
 
@@ -60,28 +59,33 @@ const getAllTickets = async (req, res) => {
 };
 
 const updateTicket = async (req, res) => {
-    const currentUser = await User.findOne({_id: req.userId});
+    try {
+        await updateTicketSchema.validateAsync(req.body);
 
-    if (currentUser.role == "EMPLOYEE" || currentUser.role == "ADMIN") {
-        const id = req.params.id;
+        const currentUser = await User.findOne({_id: req.userId});
 
-        Ticket.findByIdAndUpdate(id , req.body)
-            .then(result => {
-                if (result) {
-                    res.status(200).send('Updated ticket successfully'); // 200 OK
-                } else {
-                    res.status(404).json({ error: 'Ticket not found' }); // 404 Not Found
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                res.status(500).json({ error: 'Internal Server Error' }); // 500 Internal Server Error
-            });
-    } else {
-        res.status(403).json({ error: 'You do not have the suffisant privilieges to perform this action'})
+        if (currentUser.role == "EMPLOYEE" || currentUser.role == "ADMIN") {
+            const id = req.params.id;
+
+            Ticket.findByIdAndUpdate(id , req.body)
+                .then(result => {
+                    if (result) {
+                        res.status(200).send('Updated ticket successfully'); // 200 OK
+                    } else {
+                        res.status(404).json({ error: 'Ticket not found' }); // 404 Not Found
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    res.status(500).json({ error: 'Internal Server Error' }); // 500 Internal Server Error
+                });
+        } else {
+            res.status(403).json({ error: 'You do not have the suffisant privilieges to perform this action'})
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 };
-
 
 const deleteTicket = async (req, res) => {
     const currentUser = await User.findOne({_id: req.userId});

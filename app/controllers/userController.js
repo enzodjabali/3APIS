@@ -1,11 +1,11 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const { userSchema } = require('../middlewares/validationSchema');
+const { createUserSchema, updateUserSchema } = require('../middlewares/validationSchema');
 
 const registerUser = async (req, res) => {
     try {
-        await userSchema.validateAsync(req.body);
+        await createUserSchema.validateAsync(req.body);
 
         let username = req.body.username;
         let email = req.body.email;
@@ -29,7 +29,7 @@ const registerUser = async (req, res) => {
             })
     } catch (error) {
         res.status(500).json({ error: error.message });
-    }        
+    }
 };
 
 const loginUser = async (req, res) => {
@@ -86,31 +86,17 @@ const whoami = async (req, res) => {
     }
 };
 
-const updateMyself = (req, res) => {
-    User.findByIdAndUpdate({_id: req.userId} , req.body)
-        .then(result => {
-            if (result) {
-                res.status(200).send('You have successfully updated your account'); // 200 OK
-            } else {
-                res.status(404).json({ error: 'User not found' }); // 404 Not Found
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({ error: 'Internal Server Error' }); // 500 Internal Server Error
-        });
-};
-
-const updateUser = async (req, res) => {
+const updateMyself = async (req, res) => {
     const currentUser = await User.findOne({_id: req.userId});
+    req.body.role = currentUser.role;
 
-    if (currentUser.role == "ADMIN") {
-        const id = req.params.id;
+    try {
+        await updateUserSchema.validateAsync(req.body);
 
-        User.findByIdAndUpdate(id , req.body)
+        User.findByIdAndUpdate({_id: req.userId}, req.body)
             .then(result => {
                 if (result) {
-                    res.status(200).send('The user has been successfully updated'); // 200 OK
+                    res.status(200).send('You have successfully updated your account'); // 200 OK
                 } else {
                     res.status(404).json({ error: 'User not found' }); // 404 Not Found
                 }
@@ -119,8 +105,37 @@ const updateUser = async (req, res) => {
                 console.error(err);
                 res.status(500).json({ error: 'Internal Server Error' }); // 500 Internal Server Error
             });
-    } else {
-        res.status(403).json({ error: 'You do not have the suffisant privilieges to perform this action'})
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const updateUser = async (req, res) => {
+    try {
+        await updateUserSchema.validateAsync(req.body);
+
+        const currentUser = await User.findOne({_id: req.userId});
+
+        if (currentUser.role == "ADMIN") {
+            const id = req.params.id;
+
+            User.findByIdAndUpdate(id , req.body)
+                .then(result => {
+                    if (result) {
+                        res.status(200).send('The user has been successfully updated'); // 200 OK
+                    } else {
+                        res.status(404).json({ error: 'User not found' }); // 404 Not Found
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    res.status(500).json({ error: 'Internal Server Error' }); // 500 Internal Server Error
+                });
+        } else {
+            res.status(403).json({ error: 'You do not have the suffisant privilieges to perform this action'})
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 };
 
