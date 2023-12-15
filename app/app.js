@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const APP = express();
-const PORT = 3000;
+const PORT = process.env.APP_PORT;
 const DB_URI = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@mongo/?retryWrites=true&w=majority`;
 
 const trainRoutes = require('./routes/trainRoutes');

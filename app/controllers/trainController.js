@@ -2,52 +2,22 @@ const Train = require('../models/Train');
 const User = require('../models/User');
 const { createTrainSchema, updateTrainSchema } = require('../middlewares/validationSchema');
 
-// const fastify = require('fastify');
-// const app = fastify();
-
-// const minioClient = require('../middlewares/minioClient');
-
-// app.register(require('fastify-file-upload'));
-
 const minioClient = require('../middlewares/minioClient');
-
-const testImage = async (req, res) => {
-    const { image } = req.body;
-
-    if (image || image.data) {
-        const matches = image.data.match(/^data:image\/([a-zA-Z0-9]+);base64,/);
-        const imagesExtension = matches && matches[1] ? matches[1] : null;
-        const imageReference = Math.random().toString(36).substring(2,20) + '.' + imagesExtension;
-        
-        const decodedFileContent = Buffer.from(image.data, 'base64');
-
-        minioClient.putObject("3apis", imageReference, decodedFileContent, function(error, etag) {
-            if (error) {
-                return console.log(error);
-            }
-            res.send(`http://minio:9000/3apis/${imageReference}`);
-        });
-
-        //return res.status(400).send('Invalid JSON payload');
-    }
-
-    
-};
 
 const createTrain = async (req, res) => {
     try {
         await createTrainSchema.validateAsync(req.body);
 
-        const currentUser = await User.findOne({_id: req.userId});
+        const currentUser = await User.findOne({ _id: req.userId });
 
-        if (currentUser.role == "ADMIN") {
+        if (currentUser.role === "ADMIN") {
             const image = req.body.image;
             let imageReference = "none";
 
-            if (image) {        
+            if (image) {
                 const matches = image.data.match(/^data:image\/([a-zA-Z0-9]+);base64,/);
                 const imagesExtension = matches && matches[1] ? matches[1] : "jpeg";
-                imageReference = Math.random().toString(36).substring(2,20) + '.' + imagesExtension ?? "none";
+                imageReference = Math.random().toString(36).substring(2, 20) + '.' + imagesExtension ?? "none";
             }
 
             const train = new Train({
@@ -60,27 +30,30 @@ const createTrain = async (req, res) => {
 
             train.save()
                 .then(result => {
-                    if (imageReference != "none") {
+                    if (imageReference !== "none") {
                         const decodedFileContent = Buffer.from(image.data, 'base64');
 
-                        minioClient.putObject("3apis", imageReference, decodedFileContent, function(error, etag) {
+                        minioClient.putObject("3apis", imageReference, decodedFileContent, function (error, etag) {
                             if (error) {
-                                return console.log(error);
+                                console.error(error);
+                                res.status(500).json({ error: 'Error saving image to Minio' });
+                            } else {
+                                res.status(201).json(result);
                             }
-                            res.send(`http://minio:9000/3apis/${imageReference}`);
                         });
+                    } else {
+                        res.status(201).json(result);
                     }
-
-                res.status(201).json(result);
-            })
-                .catch (err => {
-                    console.log(err);
-                    res.status(500).json({ error: 'Internal Server Error' });
-            });
+                })
+                .catch(err => {
+                    console.error(err);
+                    res.status(500).json({ error: 'Error saving train to database' });
+                });
         } else {
-            res.status(403).json({ error: 'You do not have the suffisant privilieges to perform this action'})
+            res.status(403).json({ error: 'You do not have the sufficient privileges to perform this action' });
         }
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: error.message });
     }
 };
@@ -180,4 +153,4 @@ const deleteTrain = async (req, res) => {
     }
 };
 
-module.exports = { createTrain , getAllTrains, getSingleTrain, updateTrain, deleteTrain, testImage };
+module.exports = { createTrain , getAllTrains, getSingleTrain, updateTrain, deleteTrain };
