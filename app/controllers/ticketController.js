@@ -1,24 +1,31 @@
 const Ticket = require('../models/Ticket');
 const User = require('../models/User');
 const Train = require('../models/Train');
+const { ticketSchema } = require('../middlewares/validationSchema');
 
 const bookTicket = async (req, res) => {
-    const currentUser = await User.findOne({_id: req.userId});
+    try {
+        await ticketSchema.validateAsync(req.body);
 
-    const ticket = new Ticket({
-        owner: currentUser,
-        train: req.body.train,
-        isValid: false
-    });
+        const currentUser = await User.findOne({_id: req.userId});
 
-    ticket.save()
-        .then(result => {
-        res.status(201).json(result);
-    })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({ error: 'Internal Server Error' });
-    });
+        const ticket = new Ticket({
+            owner: currentUser,
+            train: req.body.train,
+            isValid: false
+        });
+
+        ticket.save()
+            .then(result => {
+            res.status(201).json(result);
+        })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({ error: 'Internal Server Error' });
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 };
 
 const getMyTickets = (req, res) => {

@@ -1,27 +1,34 @@
 const Station = require('../models/Station');
 const User = require('../models/User');
+const { stationSchema } = require('../middlewares/validationSchema');
 
 const createStation = async (req, res) => {
-    const currentUser = await User.findOne({_id: req.userId});
+    try {
+        await stationSchema.validateAsync(req.body);
 
-    if (currentUser.role == "ADMIN") {
-        const station = new Station({
-            name: req.body.name,
-            openHour: req.body.openHour,
-            closeHour: req.body.closeHour
-        });
+        const currentUser = await User.findOne({_id: req.userId});
 
-        station.save()
-            .then(result => {
-            res.status(201).json(result);
-        })
-            .catch (err => {
-                console.log(err);
-                res.status(500).json({ error: 'Internal Server Error' });
-        });
-    } else {
-        res.status(403).json({ error: 'You do not have the suffisant privilieges to perform this action'})
-    }
+        if (currentUser.role == "ADMIN") {
+            const station = new Station({
+                name: req.body.name,
+                openHour: req.body.openHour,
+                closeHour: req.body.closeHour
+            });
+
+            station.save()
+                .then(result => {
+                res.status(201).json(result);
+            })
+                .catch (err => {
+                    console.log(err);
+                    res.status(500).json({ error: 'Internal Server Error' });
+            });
+        } else {
+            res.status(403).json({ error: 'You do not have the suffisant privilieges to perform this action'})
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }     
 };
 
 const getAllStations = (req, res) => {

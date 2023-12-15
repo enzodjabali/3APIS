@@ -1,28 +1,35 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const { userSchema } = require('../middlewares/validationSchema');
 
 const registerUser = async (req, res) => {
-    let username = req.body.username;
-    let email = req.body.email;
-    let password = await bcrypt.hash(req.body.password, 10);
-    let role = "USER";
+    try {
+        await userSchema.validateAsync(req.body);
 
-    const user = new User({
-        username: username,
-        email: email,
-        password: password,
-        role: role,
-    });
+        let username = req.body.username;
+        let email = req.body.email;
+        let password = await bcrypt.hash(req.body.password, 10);
+        let role = "USER";
 
-    user.save()
-        .then(result => {
-            res.status(201).json(result)
-        })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({error: 'Internal Server Error'});
-        })
+        const user = new User({
+            username: username,
+            email: email,
+            password: password,
+            role: role,
+        });
+
+        user.save()
+            .then(result => {
+                res.status(201).json(result)
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json({error: 'Internal Server Error'});
+            })
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }        
 };
 
 const loginUser = async (req, res) => {

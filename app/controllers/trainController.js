@@ -1,27 +1,34 @@
 const Train = require('../models/Train');
 const User = require('../models/User');
+const { trainSchema } = require('../middlewares/validationSchema');
 
 const createTrain = async (req, res) => {
-    const currentUser = await User.findOne({_id: req.userId});
+    try {
+        await trainSchema.validateAsync(req.body);
 
-    if (currentUser.role == "ADMIN") {
-        const train = new Train({
-            name: req.body.name,
-            departureDate: new Date(req.body.departureDate),
-            startStation: req.body.startStation,
-            endStation: req.body.endStation
-        });
+        const currentUser = await User.findOne({_id: req.userId});
 
-        train.save()
-            .then(result => {
-            res.status(201).json(result);
-        })
-            .catch (err => {
-                console.log(err);
-                res.status(500).json({ error: 'Internal Server Error' });
-        });
-    } else {
-        res.status(403).json({ error: 'You do not have the suffisant privilieges to perform this action'})
+        if (currentUser.role == "ADMIN") {
+            const train = new Train({
+                name: req.body.name,
+                departureDate: new Date(req.body.departureDate),
+                startStation: req.body.startStation,
+                endStation: req.body.endStation
+            });
+
+            train.save()
+                .then(result => {
+                res.status(201).json(result);
+            })
+                .catch (err => {
+                    console.log(err);
+                    res.status(500).json({ error: 'Internal Server Error' });
+            });
+        } else {
+            res.status(403).json({ error: 'You do not have the suffisant privilieges to perform this action'})
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 };
 
