@@ -1,0 +1,776 @@
+{
+	"info": {
+		"_postman_id": "a3e6a116-d622-4abc-9c11-4fa580c07443",
+		"name": "3APIS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27879197"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "/v1/users/all",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{uri}}/v1/users/all",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/users",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"mysupernammme@new-email-2-test.dev\",\n  \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/v1/users",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/users/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"mateo22009@new-email2.dev\",\n  \"password\": \"0000\",\n  \"role\": \"EMPLOYEE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/v1/users/657c1ca5b260d1e02742faae",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"657c1ca5b260d1e02742faae"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/users",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{uri}}/v1/users",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/users/register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"mateo22\",\n  \"email\": \"matteo22@dev.fr\",\n  \"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/v1/users/register",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/users/login",
+					"request": {
+						"auth": {
+							"type": "jwt",
+							"jwt": [
+								{
+									"key": "secret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "isSecretBase64Encoded",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "algorithm",
+									"value": "HS256",
+									"type": "string"
+								},
+								{
+									"key": "payload",
+									"value": "{}",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "queryParamKey",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "header",
+									"value": "{}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"abba\",\n  \"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/v1/users/login",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/users/me",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{uri}}/v1/users/me",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "stations",
+			"item": [
+				{
+					"name": "/v1/stations/all/{sortByName}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{uri}}/v1/stations/all/true",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"stations",
+								"all",
+								"true"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/stations/{id}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{uri}}/v1/stations/657977e7037fac220d40ce00",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"stations",
+								"657977e7037fac220d40ce00"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/stations",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Santa Maria Novella\",\n  \"openHour\": \"6AM\",\n  \"closeHour\": \"9PM\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/v1/stations",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"stations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/stations/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Penstone edited 2\",\n  \"openHour\": \"6AM\",\n  \"closeHour\": \"9PM\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/v1/stations/657c13c968084da6bf0a7a15",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"stations",
+								"657c13c968084da6bf0a7a15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/stations/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{uri}}/v1/stations/65797b248979f121ca543742",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"stations",
+								"65797b248979f121ca543742"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "trains",
+			"item": [
+				{
+					"name": "/v1/trains/all/{sortBy}/{limit}",
+					"request": {
+						"auth": {
+							"type": "jwt",
+							"jwt": [
+								{
+									"key": "secret",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "isSecretBase64Encoded",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "algorithm",
+									"value": "HS256",
+									"type": "string"
+								},
+								{
+									"key": "payload",
+									"value": "{}",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "queryParamKey",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "header",
+									"value": "{}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{uri}}/v1/trains/all/name/50",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"trains",
+								"all",
+								"name",
+								"50"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/trains/{id}",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{uri}}/v1/trains/657c7d5c6a731d160af347d3",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"trains",
+								"657c7d5c6a731d160af347d3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/trains",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"A2\",\n  \"departureDate\": \"2010-12-15T08:32:16.264Z\",\n  \"startStation\": \"657c13c968084da6bf0a7a15\",\n  \"endStation\": \"65797829037fac220d40ce07\",\n  \"image\": {\n        \"data\": \"data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAj/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEBAAAAAAAAAAAAAAAAAAAABP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AJvAHIf/2Q==\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/v1/trains",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"trains"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/trains/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Pegasusaso edited\",\n  \"startStation\": \"65797b678979f121ca543745\",\n  \"endStation\": \"65797b678979f121ca543745\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/v1/trains/657c47b23c310b5b6ba2bb75",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"trains",
+								"657c47b23c310b5b6ba2bb75"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/trains/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{uri}}/v1/trains/65799e7dbef56c3bd04745b6",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"trains",
+								"65799e7dbef56c3bd04745b6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "tickets",
+			"item": [
+				{
+					"name": "/v1/tickets/all",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{uri}}/v1/tickets/all",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"tickets",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/tickets/me",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{uri}}/v1/tickets/me",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"tickets",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/tickets",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"train\": \"657c2e109eafe7f7543530c6\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/v1/tickets",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/tickets/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"isValid\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/v1/tickets/657c2f0faf2d17f7bc2b075b",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"tickets",
+								"657c2f0faf2d17f7bc2b075b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/tickets/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{uri}}/v1/tickets/657b2797fa4696f00917a6fc",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"v1",
+								"tickets",
+								"657b2797fa4696f00917a6fc"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "uri",
+			"value": "https://3apis.supinfo.edi-s2.fr"
+		},
+		{
+			"key": "jwt_token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.        eyJ1c2VySWQiOiI2NTcyZjU1MDc3ZjQzOWFkN2NkMmRiM2UiLCJpYXQiOjE3MDIwMzI3Mzd9.        w6YeWpkHpHq14JRysyUeHciqFA55HSUYWV6J30YZb54"
+		}
+	]
+}
