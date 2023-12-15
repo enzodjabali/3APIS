@@ -14,22 +14,24 @@ const minioClient = require('../middlewares/minioClient');
 const testImage = async (req, res) => {
     const { image } = req.body;
 
-    if (!image || !image.filename || !image.data) {
-        return res.status(400).send('Invalid JSON payload');
-    } else {
-        console.log('image found');
+    if (image || image.data) {
+        const matches = image.data.match(/^data:image\/([a-zA-Z0-9]+);base64,/);
+        const imagesExtension = matches && matches[1] ? matches[1] : null;
+        const imageReference = Math.random().toString(36).substring(2,20) + '.' + imagesExtension;
+        
+        const decodedFileContent = Buffer.from(image.data, 'base64');
+
+        minioClient.putObject("3apis", imageReference, decodedFileContent, function(error, etag) {
+            if (error) {
+                return console.log(error);
+            }
+            res.send(`http://minio:9000/3apis/${imageReference}`);
+        });
+
+        //return res.status(400).send('Invalid JSON payload');
     }
 
-    const decodedFileContent = Buffer.from(image.data, 'base64');
-
-    // ->CHANGED
-    minioClient.putObject("3apis", image.filename, decodedFileContent, function(error, etag) {
-        if (error) {
-            return console.log(error);
-        }
-        res.send(`http://minio:9000/3apis/${image.filename}`);
-    });
-    // CHANGED<-
+    
 };
 
 const createTrain = async (req, res) => {
@@ -39,15 +41,36 @@ const createTrain = async (req, res) => {
         const currentUser = await User.findOne({_id: req.userId});
 
         if (currentUser.role == "ADMIN") {
+            const image = req.body.image;
+            let imageReference = "none";
+
+            if (image) {        
+                const matches = image.data.match(/^data:image\/([a-zA-Z0-9]+);base64,/);
+                const imagesExtension = matches && matches[1] ? matches[1] : "jpeg";
+                imageReference = Math.random().toString(36).substring(2,20) + '.' + imagesExtension ?? "none";
+            }
+
             const train = new Train({
                 name: req.body.name,
                 departureDate: new Date(req.body.departureDate),
                 startStation: req.body.startStation,
-                endStation: req.body.endStation
+                endStation: req.body.endStation,
+                imageReference: imageReference,
             });
 
             train.save()
                 .then(result => {
+                    if (imageReference != "none") {
+                        const decodedFileContent = Buffer.from(image.data, 'base64');
+
+                        minioClient.putObject("3apis", imageReference, decodedFileContent, function(error, etag) {
+                            if (error) {
+                                return console.log(error);
+                            }
+                            res.send(`http://minio:9000/3apis/${imageReference}`);
+                        });
+                    }
+
                 res.status(201).json(result);
             })
                 .catch (err => {

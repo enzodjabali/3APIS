@@ -36,6 +36,7 @@ const createTrainSchema = Joi.object({
     departureDate: Joi.string().required(),
     startStation: Joi.string().required(),
     endStation: Joi.string().required(),
+    image: Joi.any(),
 });
 
 const updateTrainSchema = Joi.object({

@@ -19,6 +19,10 @@ const trainSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Station',
         required: true
+    },
+    imageReference: {
+        type: String,
+        required: true
     }
 }, { timestamps: true });
 
