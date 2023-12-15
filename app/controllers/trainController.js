@@ -7,7 +7,7 @@ const createTrain = async (req, res) => {
     if (currentUser.role == "ADMIN") {
         const train = new Train({
             name: req.body.name,
-            departureDate: new Date("2021-12-15T08:32:16.264Z"),
+            departureDate: new Date(req.body.departureDate),
             startStation: req.body.startStation,
             endStation: req.body.endStation
         });
@@ -26,9 +26,27 @@ const createTrain = async (req, res) => {
 };
 
 const getAllTrains = (req, res) => {
-    const limit = req.params.limit ? parseInt(req.params.limit) : 10;
+    switch (req.params.sortBy) {
+        case "name":
+            sortBy = { name: 1 }
+            break;
+        case "departureDate":
+            sortBy = { departureDate: 1 }
+            break;
+        case "startStation":
+            sortBy = { startStation: 1 }
+            break;
+        case "endStation":
+            sortBy = { endStation: 1 }
+            break;
+        default:
+            sortBy = { name: 1 }
+            break;
+    }
 
-    Train.find().limit(limit)
+    const limit = req.params.limit ? parseInt(req.params.limit) : 10;
+      
+    Train.find().sort(sortBy).limit(limit)
         .populate('startStation')
         .populate('endStation')
         .then(result => {
