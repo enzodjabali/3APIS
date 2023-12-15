@@ -2,6 +2,36 @@ const Train = require('../models/Train');
 const User = require('../models/User');
 const { createTrainSchema, updateTrainSchema } = require('../middlewares/validationSchema');
 
+// const fastify = require('fastify');
+// const app = fastify();
+
+// const minioClient = require('../middlewares/minioClient');
+
+// app.register(require('fastify-file-upload'));
+
+const minioClient = require('../middlewares/minioClient');
+
+const testImage = async (req, res) => {
+    const { image } = req.body;
+
+    if (!image || !image.filename || !image.data) {
+        return res.status(400).send('Invalid JSON payload');
+    } else {
+        console.log('image found');
+    }
+
+    const decodedFileContent = Buffer.from(image.data, 'base64');
+
+    // ->CHANGED
+    minioClient.putObject("3apis", image.filename, decodedFileContent, function(error, etag) {
+        if (error) {
+            return console.log(error);
+        }
+        res.send(`http://minio:9000/3apis/${image.filename}`);
+    });
+    // CHANGED<-
+};
+
 const createTrain = async (req, res) => {
     try {
         await createTrainSchema.validateAsync(req.body);
@@ -127,4 +157,4 @@ const deleteTrain = async (req, res) => {
     }
 };
 
-module.exports = { createTrain , getAllTrains, getSingleTrain, updateTrain, deleteTrain };
+module.exports = { createTrain , getAllTrains, getSingleTrain, updateTrain, deleteTrain, testImage };
