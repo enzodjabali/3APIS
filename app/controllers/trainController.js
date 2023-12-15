@@ -7,7 +7,7 @@ const createTrain = async (req, res) => {
     if (currentUser.role == "ADMIN") {
         const train = new Train({
             name: req.body.name,
-            departureTime: req.body.departureTime,
+            departureDate: new Date("2021-12-15T08:32:16.264Z"),
             startStation: req.body.startStation,
             endStation: req.body.endStation
         });
@@ -49,7 +49,7 @@ const getSingleTrain = (req, res) => {
         .then(result => {
             res.status(200).json(result);
         })
-        .catch(err =>{
+        .catch(err => {
             console.log(err);
             res.status(404).json({ error: 'Train not found' });
         });

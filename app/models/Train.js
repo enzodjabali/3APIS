@@ -6,8 +6,8 @@ const trainSchema = new Schema({
         type: String,
         required: true
     },
-    departureTime: {
-        type: String,
+    departureDate: {
+        type: Date,
         required: true
     },
     startStation: {
