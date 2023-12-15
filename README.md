@@ -14,19 +14,28 @@ Swagger is accessible on ``127.0.0.1:3000/api-docs``
 
 <hr>
 
-Mongo Express is accessible on ``127.0.0.1:8081``
-
+Mongo Express is accessible on ``127.0.0.1:8161``
 
 Mongo Express creditentials:
 <br>
 User: ``root``
 <br>
-Password: ``example``
+Password: ``24UKMZ5xrgI1YhQKP9x4A9``
+
+<hr>
+
+Minio S3 is accessible on ``127.0.0.1:9161``
+
+Minio S3 creditentials:
+<br>
+User: ``root``
+<br>
+Password: ``hhcXPJRm0h91bzC6qtLG5U``
 
 <hr>
 
 Regenerate api-docs:
-``docker compose run web node ./docs/swagger.js``
+``docker compose run web node /app/docs/swagger.js``
 
 <hr>
 
