@@ -88,7 +88,9 @@ const whoami = async (req, res) => {
 
 const updateMyself = async (req, res) => {
     const currentUser = await User.findOne({_id: req.userId});
-    req.body.role = currentUser.role;
+
+    req.body.role = currentUser.role;    
+    req.body.password = req.body.password == null ? req.body.password : await bcrypt.hash(req.body.password, 10);
 
     try {
         await updateUserSchema.validateAsync(req.body);
@@ -115,6 +117,8 @@ const updateUser = async (req, res) => {
         await updateUserSchema.validateAsync(req.body);
 
         const currentUser = await User.findOne({_id: req.userId});
+
+        req.body.password = req.body.password == null ? req.body.password : await bcrypt.hash(req.body.password, 10);
 
         if (currentUser.role == "ADMIN") {
             const id = req.params.id;
