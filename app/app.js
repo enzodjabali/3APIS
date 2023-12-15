@@ -23,10 +23,10 @@ APP.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`);
 });
 
-APP.use('/trains', trainRoutes);
-APP.use('/stations', stationRoutes);
-APP.use('/users', userRoutes);
-APP.use('/tickets', ticketRoutes);
+APP.use('/v1/trains', trainRoutes);
+APP.use('/v1/stations', stationRoutes);
+APP.use('/v1/users', userRoutes);
+APP.use('/v1/tickets', ticketRoutes);
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./docs/swagger.json');
